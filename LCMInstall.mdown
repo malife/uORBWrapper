@@ -1,0 +1,27 @@
+Building LCM on OSX Mavericks
+=============================
+
+These are the steps needed to build LCM built on a Mac Running OSX 10.9.2
+
+Dependencies
+------------
+
+Install the following packages with Brew
+
+- wget
+- pkg-config
+
+Install the following packages with Mac Ports
+
+- glib2
+
+
+Installing
+----------
+
+    wget http://lcm.googlecode.com/files/lcm-X.Y.Z.tar.gz
+    tar xzf lcm-X.Y.Z.tar.gz
+    cd lcm-X.Y.Z
+    ./configure
+    make
+    sudo make install
