@@ -39,7 +39,8 @@
  *  http://pixhawk.org/dev/shared_object_communication
  */
 
-/** This file is here for completeness; the structur
+/** This file is here for completeness; and it's currently unnecessary  as LCM
+    will generate the necessary files to run the sample.
 */
 
 /* declare the topic */
@@ -47,6 +48,6 @@ ORB_DECLARE(random_integer);
 // extern const struct orb_metadata __orb_random_integer
  
 /* define the data structure that will be published where subscribers can see it */
-struct random_integer_data {
+struct random_integer{
     int r;
 };
