@@ -39,11 +39,22 @@
  *  http://pixhawk.org/dev/shared_object_communication
  */
 
-#include "topic.h"
-#include "random_integer_data.h"
- 
+// #include "topic.h"
+
+#include "uORB.h"
+
+#include "random_integer.h" 
 /* create topic metadata */
-ORB_DEFINE(random_integer);
+ORB_DEFINE(random_integer,struct _random_integer); //dash in struct name is to comply with LCM
+/*
+const struct orb_metadata __orb_random_integer = { 
+        "random_integer",                 
+        sizeof(struct _random_integer),
+        random_integer_publish
+    };
+*/
+
+#include <unistd.h>
  
 /* file handle that will be used for publishing */
 static int topic_handle;
@@ -52,7 +63,7 @@ int
 init()
 {
     /* generate the initial data for first publication */
-    struct random_integer_data rd = { .r = random(), };
+    struct _random_integer rd = { .r = random(), };
  
     /* advertise the topic and make the initial publication */
     topic_handle = orb_advertise(ORB_ID(random_integer), &rd);
@@ -62,8 +73,22 @@ int
 update_topic()
 {
     /* generate a new random number for publication */
-    struct random_integer_data rd = { .r = random(), };
+    struct _random_integer rd = { .r = random(), };
  
     /* publish the new data structure */
     orb_publish(ORB_ID(random_integer), topic_handle, &rd);
+}
+
+int main(int argc, char const *argv[])
+{
+    /* code */
+    init();
+    uint8_t i;
+
+    for(i=0; i<50; i++) {
+        update_topic();
+        usleep(500);
+    }
+
+    return 0;
 }

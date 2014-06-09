@@ -42,9 +42,9 @@
  * LCM code generation tool.
  */
 
-/** This file is here for completeness; the structur
+/** This file is here for completeness; the structure
 */
 
-struct random_integer_data {
-    int r;
-};
+struct random_integer {
+    int16_t r;
+}

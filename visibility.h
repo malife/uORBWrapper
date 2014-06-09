@@ -36,8 +36,9 @@
  *
  * Definitions controlling symbol naming and visibility.
  *
- * This file is normally included automatically by the build system.
  */
+
+#include <lcm/lcm.h>
 
 #ifndef __SYSTEMLIB_VISIBILITY_H
 #define __SYSTEMLIB_VISIBILITY_H
@@ -67,6 +68,7 @@
 #endif
 // #define __WEAK __attribute__((weak))
 #define __WEAK 
+
 
 
 #endif
