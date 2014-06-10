@@ -134,6 +134,16 @@ static void _name##_handler (const lcm_recv_buf_t* rbuf, const char* channel, \
 	}; struct hack
 
 
+/**
+ * Access the Struct that contains the data for a topic.
+ *
+ * The uORB data handle is used to copy received data into it. It captures
+ * the three data as produced by the LCM handlers, namely the structure itself, 
+ * the channel name, and an LCM receive buffer.
+ *
+ *
+ * @param _name     The name of the topic.
+ */
 #define ORB_DATA_HANDLE(_name) _name##_handler_data.msg
 
 __BEGIN_DECLS
