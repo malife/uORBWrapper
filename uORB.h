@@ -100,6 +100,9 @@ typedef const struct orb_metadata *orb_id_t;
  * The uORB metadata is used to help ensure that updates and
  * copies are accessing the right data.
  *
+ * In the case of the uORBWrapper it also implements the 
+ * handling structure and the actual function handler to receive data
+ *
  * Note that there must be no more than one instance of this macro
  * for each topic.
  *
@@ -107,6 +110,21 @@ typedef const struct orb_metadata *orb_id_t;
  * @param _struct	The structure the topic provides.
  */
 #define ORB_DEFINE(_name, _struct)			\
+\
+struct _##_name##_handler_data_t { \
+    lcm_recv_buf_t rbuf; \
+    char channel[40];  \
+    _name msg; \
+} _name##_handler_data; \
+\
+static void _name##_handler (const lcm_recv_buf_t* rbuf, const char* channel, \
+        const _name* msg, void* userdata) { \
+    memcpy(&(_name##_handler_data.rbuf), rbuf, sizeof(lcm_recv_buf_t)); \
+    memcpy(&(_name##_handler_data.channel), channel, 39); \
+    _name##_handler_data.channel[39] = '\0'; \
+    memcpy(&(_name##_handler_data.msg), msg, sizeof(_name));\
+}\
+\
 	const struct orb_metadata __orb_##_name = {	\
 		#_name,					\
 		sizeof(_struct),				\

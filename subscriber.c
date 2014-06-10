@@ -41,28 +41,6 @@
 #include "uORB.h"
 
 #include "random_integer.h" 
-// This code needs to be done automatically
-// ===============================================================
-struct _random_integer_handler_data_t {
-    lcm_recv_buf_t rbuf;
-    char channel[40] ; // hack; TODO: find appropriate place to malloc the right size 
-    random_integer msg;
-} random_integer_handler_data;
-
-
-static void random_integer_handler (const lcm_recv_buf_t* rbuf, const char* channel, 
-        const random_integer* msg, void* userdata) {
-    memcpy(&(random_integer_handler_data.rbuf), rbuf, sizeof(lcm_recv_buf_t));
-    
-    // random_integer_handler_data.channel = (char *) malloc(sizeof(channel));
-    memcpy(&(random_integer_handler_data.channel), channel, 39);
-    random_integer_handler_data.channel[39] = '\0';
-
-    memcpy(&(random_integer_handler_data.msg), msg, sizeof(random_integer));
-}
-
-// ===============================================================
-
 ORB_DEFINE(random_integer, struct _random_integer);
 
 #include <unistd.h>
