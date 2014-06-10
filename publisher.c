@@ -80,18 +80,20 @@ update_topic()
     orb_publish(ORB_ID(random_integer), topic_handle, &rd);
 
     printf("value = %d\n", rd.r);
+
+    return 0;
 }
 
 int main(int argc, char const *argv[])
 {
     /* code */
     init();
-    uint8_t i;
+    uint32_t i;
 
-    for(i=0; i<50; i++) {
+    for(i=0; i<5000; i++) {
         update_topic();
 
-        usleep(500);
+        sleep(1);
     }
 
     return 0;

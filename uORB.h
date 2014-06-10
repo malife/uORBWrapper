@@ -55,8 +55,8 @@
 struct orb_metadata {
 	const char *o_name;		/**< unique object name */
 	const size_t o_size;		/**< object size */
-    int (*publish)(lcm_t*, const char*, void*); /** %$% Added in Wrapper*/
-    void* (*subscribe)(lcm_t*, const char*, void (*handler)(), void*); /** %$% Added in Wrapper*/
+    int (*publish)(lcm_t*, const char*, const void*); /** %$% Added in Wrapper*/
+    void* (*subscribe)(lcm_t*, const char*, void (*handler)(), const void*); /** %$% Added in Wrapper*/
 };
 
 typedef const struct orb_metadata *orb_id_t;

@@ -43,6 +43,8 @@
 #include "random_integer.h" 
 ORB_DEFINE(random_integer, struct _random_integer);
 
+#include <unistd.h>
+
 // This code needs to be done automatically
 // ===============================================================
 struct _random_integer_handler_data_t {
@@ -72,6 +74,8 @@ init()
 {
     /* subscribe to the topic */
     topic_handle = orb_subscribe(ORB_ID(random_integer));
+
+    return 0;
 }
  
 void
@@ -87,6 +91,8 @@ check_topic()
         /* make a local copy of the updated data structure */
         orb_copy(ORB_ID(random_integer), topic_handle, &rd);
         printf("Random integer is now %d\n", rd.r);
+    } else {
+        printf("Nothing\n");
     }
 }
 
@@ -98,7 +104,7 @@ int main(int argc, char const *argv[])
 
     for (i=0; i <50000; i++){
         check_topic();
-        usleep(250);
+        usleep(750);
     }
 
 

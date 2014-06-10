@@ -154,6 +154,7 @@ extern int  orb_publish(const struct orb_metadata *meta, orb_advert_t handle, co
  */          
 extern int orb_check(int handle, bool *updated){
     fd_set fds;
+    
     struct timeval timeout = { 
             0,  // seconds
             15   // microseconds
