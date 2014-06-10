@@ -67,6 +67,7 @@ init()
  
     /* advertise the topic and make the initial publication */
     topic_handle = orb_advertise(ORB_ID(random_integer), &rd);
+    return 1;
 }
  
 int
@@ -77,6 +78,8 @@ update_topic()
  
     /* publish the new data structure */
     orb_publish(ORB_ID(random_integer), topic_handle, &rd);
+
+    printf("value = %d\n", rd.r);
 }
 
 int main(int argc, char const *argv[])
@@ -87,6 +90,7 @@ int main(int argc, char const *argv[])
 
     for(i=0; i<50; i++) {
         update_topic();
+
         usleep(500);
     }
 

@@ -7,12 +7,20 @@
 CC=gcc
 CFLAGS=`pkg-config --cflags lcm`
 LDFLAGS=`pkg-config --libs lcm`
-SOURCES=uORB.c publisher.c random_integer.c
-OBJECTS=$(SOURCES:.c=.o)
-EXE=publisher
+SRC_PUB=uORB.c publisher.c random_integer.c 
+SRC_LIS=uORB.c random_integer.c subscriber.c
+OBJ_PUB=$(SRC_PUB:.c=.o)
+OBJ_LIS=$(SRC_LIS:.c=.o)
+PUB=publisher
+LIS=listener
 
-$(EXE): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $(EXE) $(LDFLAGS)
+all: $(PUB) $(LIS)
+
+$(PUB): $(OBJ_PUB)
+	$(CC) $(OBJ_PUB) -o $(PUB) $(LDFLAGS)
+
+$(LIS): $(OBJ_LIS)
+	$(CC) $(OBJ_LIS) -o $(LIS) $(LDFLAGS)
 
 uORB.o: uORB.h
 	$(CC) -c -DNOT_NUTTX $(CFLAGS) uORB.c
@@ -23,5 +31,8 @@ random_integer.o: random_integer.h
 publisher.o:
 	$(CC) -c -DNOT_NUTTX  $(CFLAGS) publisher.c
 
+subscriber.o:
+	$(CC) -c -DNOT_NUTTX  $(CFLAGS) subscriber.c
+
 clean:
-	rm -f *o publisher
+	rm -f *o publisher listener

@@ -40,8 +40,10 @@
  */
 
 #include <sys/types.h>
+#include <sys/time.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 
 // Hack until everything is using this header
 // TODO: See if in PC wrapper this include must be correctly directed
@@ -54,9 +56,7 @@ struct orb_metadata {
 	const char *o_name;		/**< unique object name */
 	const size_t o_size;		/**< object size */
     int (*publish)(lcm_t*, const char*, void*); /** %$% Added in Wrapper*/
-    void* (*subscribe)(lcm_t*, const char*, void*, void*); /** %$% Added in Wrapper*/
-    //random_integer_subscription_t* random_integer_subscribe(lcm_t *lcm, const char *channel, random_integer_handler_t f, void *userdata);
-
+    void* (*subscribe)(lcm_t*, const char*, void (*handler)(), void*); /** %$% Added in Wrapper*/
 };
 
 typedef const struct orb_metadata *orb_id_t;
@@ -110,7 +110,7 @@ typedef const struct orb_metadata *orb_id_t;
 		#_name,					\
 		sizeof(_struct),				\
         &_name##_publish,         \
-        &_name##_subscribe
+        &_name##_subscribe      \
 	}; struct hack
 
 __BEGIN_DECLS
