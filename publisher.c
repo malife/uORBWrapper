@@ -72,7 +72,6 @@ update_topic()
  
     /* publish the new data structure */
     orb_publish(ORB_ID(random_integer), topic_handle, &rd);
-
     printf("value = %d\n", rd.r);
 
     return 0;

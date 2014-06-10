@@ -133,6 +133,9 @@ static void _name##_handler (const lcm_recv_buf_t* rbuf, const char* channel, \
         &_name##_handler \
 	}; struct hack
 
+
+#define ORB_DATA_HANDLE(_name) _name##_handler_data.msg
+
 __BEGIN_DECLS
 
 /**

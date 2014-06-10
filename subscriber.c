@@ -70,7 +70,7 @@ check_topic()
         /* make a local copy of the updated data structure */
         orb_copy(ORB_ID(random_integer), topic_handle, &rd);
         // printf("Random integer is now %d\n", rd.r);
-        printf("Random integer is now %d\n", random_integer_handler_data.msg.r);
+        printf("Random integer is now %d\n", ORB_DATA_HANDLE(random_integer).r);
     } else {
         printf("Nothing\n");
     }
