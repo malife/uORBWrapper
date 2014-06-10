@@ -41,15 +41,11 @@
 #include "uORB.h"
 
 #include "random_integer.h" 
-ORB_DEFINE(random_integer, struct _random_integer);
-
-#include <unistd.h>
-
 // This code needs to be done automatically
 // ===============================================================
 struct _random_integer_handler_data_t {
     lcm_recv_buf_t rbuf;
-    char* channel; 
+    char channel[40] ; // hack; TODO: find appropriate place to malloc the right size 
     random_integer msg;
 } random_integer_handler_data;
 
@@ -58,13 +54,18 @@ static void random_integer_handler (const lcm_recv_buf_t* rbuf, const char* chan
         const random_integer* msg, void* userdata) {
     memcpy(&(random_integer_handler_data.rbuf), rbuf, sizeof(lcm_recv_buf_t));
     
-    random_integer_handler_data.channel = (char *) malloc(sizeof(channel));
-    memcpy(&(random_integer_handler_data.channel), channel, sizeof(channel));
+    // random_integer_handler_data.channel = (char *) malloc(sizeof(channel));
+    memcpy(&(random_integer_handler_data.channel), channel, 39);
+    random_integer_handler_data.channel[39] = '\0';
 
     memcpy(&(random_integer_handler_data.msg), msg, sizeof(random_integer));
 }
 
 // ===============================================================
+
+ORB_DEFINE(random_integer, struct _random_integer);
+
+#include <unistd.h>
  
 /* file handle that will be used for subscribing */
 static int topic_handle;
@@ -90,7 +91,8 @@ check_topic()
     if (updated) {
         /* make a local copy of the updated data structure */
         orb_copy(ORB_ID(random_integer), topic_handle, &rd);
-        printf("Random integer is now %d\n", rd.r);
+        // printf("Random integer is now %d\n", rd.r);
+        printf("Random integer is now %d\n", random_integer_handler_data.msg.r);
     } else {
         printf("Nothing\n");
     }
@@ -104,7 +106,7 @@ int main(int argc, char const *argv[])
 
     for (i=0; i <50000; i++){
         check_topic();
-        usleep(750);
+        sleep(1);
     }
 
 

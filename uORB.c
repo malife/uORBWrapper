@@ -76,9 +76,9 @@ extern int  orb_subscribe(const struct orb_metadata *meta){
         lcm = lcm_create(NULL);
     }
 
-    return lcm_get_fileno(lcm);
+    meta->subscribe(lcm, meta->o_name, meta->handler, NULL);
 
-    //meta->subscribe(lcm, meta->o_name, random_integer_handler, NULL);
+    return lcm_get_fileno(lcm);
 
     return 0;
 
@@ -154,7 +154,7 @@ extern int  orb_publish(const struct orb_metadata *meta, orb_advert_t handle, co
  */          
 extern int orb_check(int handle, bool *updated){
     fd_set fds;
-    
+
     struct timeval timeout = { 
             0,  // seconds
             15   // microseconds
@@ -166,6 +166,8 @@ extern int orb_check(int handle, bool *updated){
 
     // wait a limited amount of time for an incoming message
     status = select(handle + 1, &fds, 0, 0, &timeout);
+
+    printf("status = %d\n", status);
 
     *updated = 0 < status ? true: false;
 
@@ -193,7 +195,6 @@ extern int  orb_copy(const struct orb_metadata *meta, int handle, void *buffer){
     lcm_handle(lcm);
 
     return 0; //TODO: Put correct return value, check for errors
-
 }
 
 

@@ -57,6 +57,7 @@ struct orb_metadata {
 	const size_t o_size;		/**< object size */
     int (*publish)(lcm_t*, const char*, const void*); /** %$% Added in Wrapper*/
     void* (*subscribe)(lcm_t*, const char*, void (*handler)(), const void*); /** %$% Added in Wrapper*/
+    void* (*handler)(const lcm_recv_buf_t* , const char*, const void*, void *); /** %$% Added in Wrapper*/
 };
 
 typedef const struct orb_metadata *orb_id_t;
@@ -110,7 +111,8 @@ typedef const struct orb_metadata *orb_id_t;
 		#_name,					\
 		sizeof(_struct),				\
         &_name##_publish,         \
-        &_name##_subscribe      \
+        &_name##_subscribe,      \
+        &_name##_handler \
 	}; struct hack
 
 __BEGIN_DECLS
